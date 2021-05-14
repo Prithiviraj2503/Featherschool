@@ -2,16 +2,16 @@
  
   class admin 
 	{
-			/* Feemaster Details Start */ 
+		/* Feemaster Details Start */ 
 		public function addfeemaster($mysqli) 
 		{
 		if(isset($_POST['standard']))		
 		{	
 		$standard = $_POST['standard'];
 		}
-		if(isset($_POST['section']))		
+		if(isset($_POST['medium']))		
 		{
-		$section = $_POST['section'];
+		$medium = $_POST['medium'];
 		}
 		if(isset($_POST['academicyear']))		
 		{
@@ -28,7 +28,7 @@
 		}
 	
 		$qry = "INSERT INTO feesmaster(standardlist,medium,academicyear,status) 
-		VALUES ('".strip_tags($standard)."','".strip_tags($section)."',
+		VALUES ('".strip_tags($standard)."','".strip_tags($medium)."',
 		'".strip_tags($academicyear)."','".strip_tags($status)."');";
 	
 		$res =$mysqli->query($qry)or die("Error in Query".$mysqli->error);
@@ -108,9 +108,9 @@
 			{	
 			$standard = $_POST['standard'];
 			}
-			if(isset($_POST['section']))		
+			if(isset($_POST['medium']))		
 			{
-			$section = $_POST['section'];
+			$medium = $_POST['medium'];
 			}
 			if(isset($_POST['academicyear']))		
 			{
@@ -127,7 +127,7 @@
 			}		
 			
 			$updateQry = 'UPDATE  feesmaster  SET standardlist="'.strip_tags($standard).'" ,
-			medium="'.strip_tags($section).'" ,		 
+			medium="'.strip_tags($medium).'" ,		 
 			academicyear="'.strip_tags($academicyear).'", 
 			status="'.strip_tags($status).'"	
 			WHERE feesid="'.mysqli_real_escape_string($mysqli,$id).'"';  
@@ -288,7 +288,6 @@ $res =$mysqli->query($updateQrycf)or die("Error in in update Query!.".$mysqli->e
 	    	$qry = 'UPDATE  feesmaster  SET status="1"  WHERE feesid="'.mysqli_real_escape_string($mysqli,$id).'"'; 
     		$res =$mysqli->query($qry)or die("Error in delete query".$mysqli->error);	
 		} 	
-
 		
 		/* school Details Start */ 
 		public function addschool($mysqli) 
