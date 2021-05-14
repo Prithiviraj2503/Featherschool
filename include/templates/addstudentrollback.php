@@ -2,25 +2,17 @@
 $status =0;
 if(isset($_POST['submitbtn']) && $_POST['submitbtn'] != '')
 {
-  if(isset($_POST['standard']) != '' && isset($_POST['section']) != '' &&
-  isset($_POST['studentname']) != '' && isset($_POST['rollnumber']) != ''
-&& isset($_POST['checks']) != ''  && isset($_POST['finalresult']) != '' )
- {
-   if(isset($_POST['id']) && $_POST['id'] >0 && is_numeric($_POST['id'])) {   
-   $id = $_POST['id'];   
-
- 
- $updatestudentrollback = $userObj-> updatestudentrollback($mysqli ,$id);
-       ?>
-   <script>location.href='<?php echo $HOSTPATH;  ?>studentrollback&msc=1';</script>
-       <?php
-   } else{
-      ?>
-    <script>location.href='<?php echo $HOSTPATH;  ?>studentrollback&msc=2';</script>
-        <?php
-        $addstudentrollback = $userObj-> addstudentrollback($mysqli);
-   }
- 
+  if(isset($_POST['id']) && $_POST['id'] >0 && is_numeric($_POST['id'])) { 
+  $id = $_POST['id'];   
+  $updatestudentrollback = $userObj->updatestudentrollback($mysqli ,$id);
+  ?>
+  <script>location.href='<?php echo $HOSTPATH;  ?>studentrollback&msc=2';</script>
+  <?php
+  }else{
+  ?>
+  <script>location.href='<?php echo $HOSTPATH;  ?>studentrollback&msc=1';</script>
+  <?php
+    $addstudentrollback = $userObj->addstudentrollback($mysqli);
  }
 }
 
@@ -28,23 +20,19 @@ if(isset($_GET['upd']))
 {
 $idupd=$_GET['upd'];
 }
-$status =0;
 if($idupd>0)
 {
   $getstudentrollback = $userObj->getstudentrollback($mysqli,$idupd); 
-  
-  if (sizeof($generalsmsdetails)>0) {
+  if (sizeof($getstudentrollback)>0){
         for($irollback=0;$irollback<sizeof($getstudentrollback);$irollback++){ 
-      $id                        = $getstudentrollback['id'];
-      $studentname               = $getstudentrollback['studentname'];
-      $rollnumber                = $getstudentrollback['rollnumber'];
+      $id       = $getstudentrollback['studentrollbackid'];
       $standard                  = $getstudentrollback['standard'];
       $section                   = $getstudentrollback['section'];
-      $checks                    = $getstudentrollback['checks'];
-      $finalresult               = $getstudentrollback['finalresult'];
       $status                    = $getstudentrollback['status'];
         }
       }
+      $studentreferenceid=$id;
+      $studentrollbackreferencedetails = $userObj->studentrollbackreferencedetails($mysqli, $studentreferenceid);
     }
 
 $del=0;
@@ -54,13 +42,12 @@ $del=$_GET['del'];
 }
 if($del>0)
 {
-  $deletegeneralsms = $userObj->deletegeneralsms($mysqli,$del); 
+  $deletestudentrollback = $userObj->deletestudentrollback($mysqli,$del); 
   //die;
   ?>
   <script>location.href='<?php echo $HOSTPATH;  ?>studentrollback&msc=3';</script>
 <?php 
 }
-
 ?>
 
  <div class="tab-pane <?php if($msc!=2){ echo "active"; }?>" id="trust-add">
@@ -68,7 +55,7 @@ if($del>0)
                             <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title"><div class="text-light bg-azure" data-class="bg-warning">Fee History</div></h3>
+                                        <h3 class="card-title"><div class="text-light bg-azure" data-class="bg-warning">STUDENT ROLL BACK</div></h3>
                                         <div class="card-options ">
                                             <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
                                         </div>
@@ -81,7 +68,7 @@ if($del>0)
                                    
                                     <div class="row clearfix"> 
                                    
-                                    
+   
                                     <div class="col-sm-6">
                                         <div class="form-group mx-4">
                                         <label>Standard<span class="text-danger">*</span></label>
@@ -105,7 +92,6 @@ if($del>0)
                                             </select>
                                             <label><span id="standardcheck" class="text-danger">Select The Standard</span></label> 
                                         </div>
-                                        
                                     </div>
                                       <div class="col-sm-6">
                                         <div class="form-group mx-4">
@@ -121,16 +107,25 @@ if($del>0)
                                             </select>
                                             <label><span id="sectioncheck" class="text-danger">Select The Section</span></label>
                                         </div>
-                                        
                                     </div>
-                                    
-                                   
                                 </div>
-                               
-                               
                                 <hr>
-                                    <div class="row mt-4">
-                                      
+
+<?php
+if($idupd>0)
+{
+  if(isset($studentrollbackreferencedetails)){
+  if (sizeof($studentrollbackreferencedetails)>0){  {    
+    $referenceid          = $studentrollbackreferencedetails['referenceid'];
+    $studentname          = $studentrollbackreferencedetails['studentname'];
+    $rollnumber           = $studentrollbackreferencedetails['rollnumber'];
+    $result               = $studentrollbackreferencedetails['result'];   
+    $checks               = $studentrollbackreferencedetails['checks'];
+    //$status               = $studentrollbackreferencedetails['status'];
+?>
+<input type="hidden" class="form-control" value="<?php if(isset($referenceid)) echo $referenceid; ?>"  id="referenceid" name="referenceid" aria-describedby="referenceid">
+
+                                      <div class="row mt-4">
                                       <div class="col-md-12">
                                       <table class="table table-bordered table-hover table-sm">
                                             <thead>
@@ -142,33 +137,73 @@ if($del>0)
                                                                                       
                                                 </tr>
                                             </thead>
+
                                             <tbody class="p-0 m-0">
                                                 <tr>                                              
-                                                <td class="text-center "><input type="checkbox" id="checks" name="checks" aria-label="Checkbox for following text input" value="Yes"  <?php if($status==0){echo'checked';}?> ></td>
-                                                <td class="text-center "><input tabindex="21" type="text" name="rollnumber"  id="rollnumber" class="form-control" value="<?php if(isset($rollnumber)) echo $rollnumber; ?>" placeholder="Enter Roll Number"  > </td> 
-                                                <td class="text-center "><input tabindex="21" type="text" name="studentname"  id="studentname" class="form-control" value="<?php if(isset($studentname)) echo $studentname; ?>" placeholder="Enter Student Name"  ></td>
+                                                <td class="text-center "><input tabindex="49" id="checks" name="checks" type="checkbox" value="Yes" <?php if($checks==0){echo'checked';}?>></td>
+                                                <td class="text-center "><input tabindex="21" type="text" name="rollnumber"  id="rollnumber" class="form-control" value="<?php if(isset($rollnumber)) echo $rollnumber; ?>" placeholder="Enter Roll Number"> </td> 
+                                                <td class="text-center "><input tabindex="21" type="text" name="studentname" id="studentname" class="form-control" value="<?php if(isset($studentname)) echo $studentname; ?>" placeholder="Enter Student Name"  ></td>
                                                 <td>
-                                                <select  name="finalresult" id="finalresult"  class="form-control" >
-                                                    <option value="">Select The Section</option>
-                                                    <option <?php if(isset($finalresult)) { if($finalresult == "Pass" ) echo 'selected'; }  ?> value="PASS">PASS</option>
-                                                    <option <?php if(isset($finalresult)) { if($finalresult == "FAIL" ) echo 'selected'; }  ?> value="FAIL">FAIL</option>
+                                        <select  name="result" id="result"  class="form-control" >
+                                         <option value="">Select The Final Result</option>
+                                              <option <?php if(isset($result)) { if($result == "pass" ) echo 'selected'; }  ?> value="pass">PASS</option>
+                                               <option <?php if(isset($result)) { if($result == "fail" ) echo 'selected'; }  ?> value="fail">FAIL</option>
                                                 </select>
                                                 </td>
-                                               
                                                  </tr>
                                             </tbody>
                                             </table>
-                                      
-                                      </div>
-                                      <div class="form-group ml-4">
+                                    <div class="form-group">
                                     <div class="kt-checkbox-inline">
                                     <label class="kt-checkbox">
-                                    <input tabindex="27" id="status" name="status" type="checkbox" value="Yes"  <?php if($status==0){echo'checked';}?> > Is Active?
+                                    <input tabindex="27" id="status" name="status" type="checkbox" value="Yes" <?php  if($status==0){echo'checked';}else{echo"notchecked";}?> > Is Active?
+                                    <span></span></label>
+                                    </div>
+                                    </div>                                     
+                                      </div>
+                                    
+                                   
+<?php }}}}else{ ?>
+                                      <div class="row mt-4">
+                                      <div class="col-md-12">
+                                      <table class="table table-bordered table-hover table-sm">
+                                            <thead>
+                                                <tr>                                              
+                                                <th class="bg-azure text-light text-center"><label   class="  justify-content-center">Check</label></th>
+                                                <th class="bg-azure text-light text-center"><label class="  justify-content-center">Roll Number</label></th>
+                                                <th class="bg-azure text-light text-center"><label  class="  justify-content-center">Student Name</label></th>
+                                                <th class="bg-azure text-light text-center"><label  class="  justify-content-center">Final Exam Result</label></th>
+                                              </tr>
+                                            </thead>
+                                            <tbody class="p-0 m-0">
+                                                <tr>                                              
+                                                <td class="text-center "><input tabindex="49" id="checks" name="checks" type="checkbox" value="Yes"></td>
+                                                <td class="text-center "><input tabindex="21" type="text" name="rollnumber"  id="rollnumber" class="form-control" value="" placeholder="Enter Roll Number" > </td> 
+                                                <td class="text-center "><input tabindex="21" type="text" name="studentname"   id="studentname" class="form-control" value="" placeholder="Enter Student Name"  ></td>
+                                            <td>
+                                           <select  name="result" id="result"  class="form-control" value="">
+                                            <option value="">Select The Final Result</option>
+                                              <option  value="pass">PASS</option>
+                                               <option  value="fail">FAIL</option>
+                                                </select>
+                                                
+                                                </td>
+                                                 </tr>
+                                            </tbody>
+                                            </table>                                     
+                                      </div>
+                                    <div class="form-group">
+                                    <div class="kt-checkbox-inline">
+                                    <label class="kt-checkbox">
+                                    <input tabindex="27" id="status" name="status" type="checkbox" value="Yes" <?php  if($status==0){echo'checked';}?> > Is Active?
                                     <span></span></label>
                                     </div>
                                     </div>
-                                    
                                     </div>
+                                   
+                                    
+
+<?php }?>
                                     <div class="row mt-4">
                                     <div class="col-md-4">
                                     </div>
@@ -182,7 +217,6 @@ if($del>0)
                             </div>
                             
                             </div>
-                            
                         </form>
                    </div>
                 </div>
