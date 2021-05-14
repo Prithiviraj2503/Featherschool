@@ -296,6 +296,14 @@
                             <li class="breadcrumb-item"><a href="#">Feather</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Student RollBack</li>
                         </ol>
+                    </div><?php  } 
+
+                    if($current_page == 'bulkimport') { ?>
+                        <h1 class="page-title">Student RollBack</h1>
+                        <ol class="breadcrumb page-breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Feather</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Bulk Import</li>
+                        </ol>
                     </div><?php  } ?>
                    
                    
@@ -378,7 +386,6 @@
                      <li class="nav-item"><a class="nav-link <?php if($msc!=1){ echo "active"; } if($msc!=2  ){ echo "active"; } if($msc!=3 ){ echo "active"; }?>" <a href=<?php echo $URLPATH."studentrollback";?>  target="_self" >Add Student RollBack</a></li>
                         <li class="nav-item"><a class="nav-link <?php if($msc==1){ echo "active"; }if($msc==2){ echo "active"; }if($msc==3){ echo "active"; }?> " data-toggle="tab" href="#studentrollback-all">Edit Student RollBack</a></li>             
                         <?php  } ?>
-                        
                         </ul>
                 </div>
             </div>
@@ -738,7 +745,10 @@
                      }          
                      if($current_page == 'studentrollback'){ 
                         include('include/templates/addstudentrollback.php'); 
-                     }          
+                     }
+                     if($current_page == 'bulkimport'){ 
+                        include('include/templates/addbulkimport.php'); 
+                     }             
     }
     }
 }
