@@ -2001,6 +2001,7 @@ public function getpendingfee($mysqli,$idupd)
 			return $detailrecords;
 		}
 
+	  
 		/*Add Student RollBack*/
 		public function addstudentrollback($mysqli) {
 			
@@ -2020,28 +2021,36 @@ public function getpendingfee($mysqli,$idupd)
 				{
 				$rollnumber = $_POST['rollnumber'];
 				}
-				if(isset($_POST['finalresult']))		
-				{
-				$finalresult = $_POST['finalresult'];
-				}
-				if(isset($_POST['checks']) &&  $_POST['checks'] == 'Yes')		
-				{
-				$status    = 0;
-				}
-				else
-				{
-				$status    = 1;
-				}
+    if(isset($_POST['checks']) && $_POST['checks'] == 'Yes')		
+    {
+    $checks    = 0;
+    }
+    else
+    {
+    $checks    = 1;
+    }
+	if(isset($_POST['result']))		
+	{
+	$result = $_POST['result'];
+	}
+    if(isset($_POST['status']) && $_POST['status'] == 'Yes')		
+    {
+    $status    = 0;
+    }
+    else
+    {
+    $status    = 1;
+    }	
 
-				$qry = "INSERT INTO studentrollback(standard, section) VALUES (
-				'".strip_tags($standard)."','".strip_tags($section)."'
-				)";
+                $qry = "INSERT INTO studentrollback(standard, section, status) 
+                VALUES ('".strip_tags($standard)."','".strip_tags($section)."','".strip_tags($status)."')";
 				$res =$mysqli->query($qry) or die("Error in Query".$mysqli->error);
+
+		        $studentrollbackid = $mysqli->insert_id;
 				
-				$qry1 = "INSERT INTO sturollbacktwo(studentname, rollnumber, checks, finalresult) VALUES(
-					'".strip_tags($studentname)."','".strip_tags($rollnumber)."',
-					'".strip_tags($checks)."','".strip_tags($finalresult)."'
-					)";
+				$qry1 = "INSERT INTO studentrollbackreference(studentname, rollnumber, result, checks, status, studentrollbackid) VALUES('".strip_tags($studentname)."','".strip_tags($rollnumber)."', '".strip_tags($result)."', '".strip_tags($checks)."', '".strip_tags($status)."',
+				'".strip_tags($studentrollbackid)."')";
+
 					$res1 =$mysqli->query($qry1) or die("Error in Query".$mysqli->error);
 					$id = 0;
 					$id = $mysqli->insert_id;
@@ -2051,43 +2060,40 @@ public function getpendingfee($mysqli,$idupd)
 		
 		/*Get Student Rollback*/
 		public function getstudentrollback($mysqli,$idupd){
-
-
-			$qry = "SELECT * FROM studentrollback WHERE id='".mysqli_real_escape_string($mysqli,$idupd)."'"; 
+			$qry = "SELECT * FROM studentrollback WHERE studentrollbackid='".mysqli_real_escape_string($mysqli,$idupd)."'"; 
 			$res =$mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
-
-			$qry = "SELECT * FROM sturollbacktwo WHERE id='".mysqli_real_escape_string($mysqli,$idupd)."'"; 
-			$res =$mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
-		
-			$detailrecords = array();
+            $detailrecords = array();
 			if ($mysqli->affected_rows>0)
 			{
 				$row = $res->fetch_object();	
-			    $detailrecords['id']                		 = $row->pendingfeeid; 
+			    $detailrecords['studentrollbackid']  = $row->studentrollbackid; 
+				$detailrecords['standard']           = strip_tags($row->standard);
+				$detailrecords['section']            = strip_tags($row->section);
+				$detailrecords['status']            = strip_tags($row->status);
+            }
+            return $detailrecords;
+        }
+        
+        public function studentrollbackreferencedetails($mysqli,$idupd){
+        	$qry = "SELECT * FROM studentrollbackreference WHERE studentrollbackid='".mysqli_real_escape_string($mysqli,$idupd)."'";
+			$res =$mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
+			$detailrecords = array();
+			$i = 0;
+			if ($mysqli->affected_rows>0)
+			{
+				$row = $res->fetch_object();	
+			    $detailrecords['referenceid']                = $row->referenceid; 
 				$detailrecords['studentname']       		 = strip_tags($row->studentname);
 				$detailrecords['rollnumber']                 = strip_tags($row->rollnumber);
-				$detailrecords['standard']       	         = strip_tags($row->standard);
-				$detailrecords['section']       		     = strip_tags($row->section);
+				$detailrecords['result']       	             = strip_tags($row->result);
+				$detailrecords['studentrollbackid']       	 = strip_tags($row->studentrollbackid);
 				$detailrecords['checks']                     = strip_tags($row->checks);
-				$detailrecords['finalresult']       	     = strip_tags($row->finalresult);
-				$detailrecords['status']                     = strip_tags($row->status);
-				
-		
+				//$detailrecords['status']                     = strip_tags($row->status);
 			}
 			return $detailrecords;
 		}
-		/*Delete Student ROllback*/
-		public function deletegeneralsms($mysqli,$del) {
-			$date  = date('Y-m-d'); 
-	          $qry = 'UPDATE  studentrollback  SET status="1"  WHERE sturollid ="'.mysqli_real_escape_string($mysqli,$del).'"'; 
-	        $res =$mysqli->query($qry)or die("Error in delete query".$mysqli->error);	
-			$qry = 'UPDATE  sturollbacktwo  SET status="1"  WHERE sturollid ="'.mysqli_real_escape_string($mysqli,$del).'"'; 
-	        $res =$mysqli->query($qry)or die("Error in delete query".$mysqli->error);	
 
-
-		}
-/*Update Fee History*/
-
+/*Update student rollback*/
 public function updatestudentrollback($mysqli ,$id) {
 	$date  = date('Y-m-d');
 	
@@ -2107,36 +2113,51 @@ public function updatestudentrollback($mysqli ,$id) {
 	{
 	$section = $_POST['section'];
 	}
-	if(isset($_POST['checks']))		
+    if(isset($_POST['checks']) && $_POST['checks'] == 'Yes')		
+    {
+    $checks    = 0;
+    }
+    else
+    {
+    $checks    = 1;
+    }
+	if(isset($_POST['result']))		
 	{
-	$checks = $_POST['checks'];
+	$result = $_POST['result'];
 	}
-	if(isset($_POST['finalresult']))		
-	{
-	$finalresult = $_POST['finalresult'];
-	}
+    if(isset($_POST['status']) && $_POST['status'] == 'Yes')		
+    {
+    $status    = 0;
+    }
+    else
+    {
+    $status    = 1;
+    }	
 			$updateQry = 'UPDATE  studentrollback  SET 
-			
 			standard="'.strip_tags($standard).'",
-			section="'.strip_tags($section).'" 
-			
-          WHERE pendingfeeid ="'.mysqli_real_escape_string($mysqli,$id).'"   ';  
-		  $res =$mysqli->query($updateQry)or die("Error in in update Query!.".$mysqli->error); 
+			section="'.strip_tags($section).'",
+			status="'.strip_tags($status).'"
+            WHERE studentrollbackid ="'.mysqli_real_escape_string($mysqli, $id).'"   ';  
+		    $res =$mysqli->query($updateQry)or die("Error in in update Query!.".$mysqli->error); 
 		  
 		  
-			$updateQry = 'UPDATE  sturollbacktwo  SET 
+			$updateQry = 'UPDATE  studentrollbackreference  SET 
 			studentname="'.strip_tags($studentname).'" ,rollnumber="'.strip_tags($rollnumber).'" ,
-			checks="'.strip_tags($checks).'" ,finalresult="'.strip_tags($finalresult).'" ,
+			checks="'.strip_tags($checks).'" ,result="'.strip_tags($result).'" ,
 			status="'.$status.'"
-          WHERE pendingfeeid ="'.mysqli_real_escape_string($mysqli,$id).'"   ';  
-		  $res =$mysqli->query($updateQry)or die("Error in in update Query!.".$mysqli->error); 	
+            WHERE studentrollbackid ="'.mysqli_real_escape_string($mysqli, $id).'"   ';  
+		    $res =$mysqli->query($updateQry)or die("Error in in update Query!.".$mysqli->error); 	
 
 }
+/*Delete Student ROllback*/
+public function deletestudentrollback($mysqli,$del) {
+			$date  = date('Y-m-d'); 
+	          $qry = 'UPDATE  studentrollback  SET status="1"  WHERE studentrollbackid ="'.mysqli_real_escape_string($mysqli,$del).'"'; 
+	        $res =$mysqli->query($qry)or die("Error in delete query".$mysqli->error);	
+		}
+	  /* Student Rollback End*/
 
 /*view fee history*/
-
-
-
 public function viewfeehistory($mysqli,$idupd) 
 {
 	$date  = date('Y-m-d');
