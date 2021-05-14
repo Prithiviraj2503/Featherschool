@@ -88,8 +88,8 @@
                           <li><a href="student"><i class="fa fa-user-plus"></i>Create Student</a></li>
                         <!--  <li><a href="student"><i class="fa fa-address-book-o"></i>Student List</a></li>-->
                           <li><a href="javascript:void(0);"><i class=" fa fa-vcard-o"></i>Certificate</a></li>
-                          <li><a href="javascript:void(0);"><i class=" fa fa-pencil-square-o"></i>Student Roll Back</a></li>
-                          <li><a href="javascript:void(0);"><i class=" fa fa-upload"></i>Bulk Import</a></li>
+                          <li><a href="studentrollback"><i class=" fa fa-pencil-square-o"></i>Student Roll Back</a></li>
+                          <li><a href="bulkimport"><i class=" fa fa-upload"></i>Bulk Import</a></li>
                            <!--  <li><a href="javascript:void(0);"><i class=" fa fa-user-times"></i>Delete Student</a></li>-->
                         </ul>
                       </li>
