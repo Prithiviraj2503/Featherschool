@@ -10,7 +10,7 @@ $column = array(
 'academicyear', 
 'standard', 
 'otherchanges', 
-'otherfeesrecieved', 
+'otherfeesreceived', 
 'totalfeecollected', 
 'finalfeecollected', 
 'feecollected', 
@@ -43,7 +43,7 @@ else{
  OR  academicyear LIKE '%".$_POST['search']."%'
  OR  standard LIKE '%".$_POST['search']."%'
  OR  otherchanges LIKE '%".$_POST['search']."%'
- OR  otherfeesrecieved LIKE '%".$_POST['search']."%'
+ OR  otherfeesreceived LIKE '%".$_POST['search']."%'
  OR  totalfeecollected LIKE '%".$_POST['search']."%'
  OR  finalfeecollected LIKE '%".$_POST['search']."%'
  OR  feecollected LIKE '%".$_POST['search']."%'
@@ -89,7 +89,7 @@ foreach ($result as $row) {
     $sub_array[] = $row['academicyear'];
     $sub_array[] = $row['standard'];
     $sub_array[] = $row['otherchanges'];   
-    $sub_array[] = $row['otherfeesrecieved'];
+    $sub_array[] = $row['otherfeesreceived'];
     $sub_array[] = $row['totalfeecollected'];
     $sub_array[] = $row['finalfeecollected'];
     $sub_array[] = $row['feecollected'];   
