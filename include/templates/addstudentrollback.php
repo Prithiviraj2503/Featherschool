@@ -125,7 +125,7 @@ if($idupd>0)
 ?>
 <input type="hidden" class="form-control" value="<?php if(isset($referenceid)) echo $referenceid; ?>"  id="referenceid" name="referenceid" aria-describedby="referenceid">
 
-                                      <div class="row mt-4">
+                                      <div class="row">
                                       <div class="col-md-12">
                                       <table class="table table-bordered table-hover table-sm">
                                             <thead>
@@ -159,12 +159,24 @@ if($idupd>0)
                                     <input tabindex="27" id="status" name="status" type="checkbox" value="Yes" <?php  if($status==0){echo'checked';}else{echo"notchecked";}?> > Is Active?
                                     <span></span></label>
                                     </div>
-                                    </div>                                     
-                                      </div>
+                                    </div>
+                                    </div>
+                                    </div> 
+
+                                    <div class="row">
+                                    <div class="col-md-4">
+                                    </div>
+                                    <div class="col-md-4">
+                                    </div>
+                                    <div class="col-md-4">
+                                    <input type="submit" tabindex="26" id="submitbtn" name="submitbtn"   class="btn btn-primary ml-4 " />
+                                    <button type="reset" tabindex="27" class="btn btn-outline-secondary">Cancel</button><br/>
+                                    </div>
+                                     </div>                                    
                                     
                                    
 <?php }}}}else{ ?>
-                                      <div class="row mt-4">
+                                      <div class="row">
                                       <div class="col-md-12">
                                       <table class="table table-bordered table-hover table-sm">
                                             <thead>
@@ -200,26 +212,26 @@ if($idupd>0)
                                     </div>
                                     </div>
                                     </div>
+
+                                    <div class="row">
+                                    <div class="col-md-4">
+                                    </div>
+                                    <div class="col-md-4">
+                                    </div>
+                                    <div class="col-md-4">
+                                    <input type="submit" tabindex="26" id="submitbtn" name="submitbtn"   class="btn btn-primary ml-4 " />
+                                    <button type="reset" tabindex="27" class="btn btn-outline-secondary">Cancel</button><br/>
+                                    </div>
+                                </div>
                                    
                                     
 
 <?php }?>
-                                    <div class="row mt-4">
-                                    <div class="col-md-4">
-                                    </div>
-                                    <div class="col-md-4">
-                                    </div>
-                                    <div class="col-md-4">
-                                    <input type="submit" tabindex="3" id="submitbtn" name="submitbtn"   class="btn btn-primary ml-4 ">
-                                    </div>
-                                </div>
-                              
+
                             </div>
-                            
                             </div>
                         </form>
                    </div>
                 </div>
             </div>
         </div>
-    </div>
