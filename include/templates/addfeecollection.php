@@ -33,7 +33,7 @@ if(isset($_GET['upd']))
       $academicyear              = $feecollectiondetails['academicyear'];
       $standard                  = $feecollectiondetails['standard'];
       $otherchanges              = $feecollectiondetails['otherchanges'];   
-      $otherfeesrecieved         = $feecollectiondetails['otherfeesrecieved'];
+      $otherfeesreceived         = $feecollectiondetails['otherfeesreceived'];
       $totalfeecollected         = $feecollectiondetails['totalfeecollected'];
       $finalfeecollected         = $feecollectiondetails['finalfeecollected'];
       $feecollected              = $feecollectiondetails['feecollected'];
@@ -208,7 +208,7 @@ if (sizeof($groupfeedetails)>0) {
       $groupfeeid                = $groupfeedetails[$igroupfee]['groupfeeid'];
       $groupfees                 = $groupfeedetails[$igroupfee]['groupfees'];
       $groupfeesamount           = $groupfeedetails[$igroupfee]['groupfeesamount'];
-      $feesrecieved              = $groupfeedetails[$igroupfee]['feesrecieved'];   
+      $feesreceived              = $groupfeedetails[$igroupfee]['feesreceived'];   
       $scholarship               = $groupfeedetails[$igroupfee]['scholarship'];
       $balance                   = $groupfeedetails[$igroupfee]['balance'];
     ?>
@@ -230,8 +230,8 @@ if (sizeof($groupfeedetails)>0) {
 
                                     <div class="col-sm-2">
                                         <div class="form-group">
-                                        <label>Fees Recieved</label>
-                                        <input  type="number" tabindex="9" name="feesrecieved[]" id="feesrecieved" class="form-control" value="<?php if(isset($feesrecieved)) echo $feesrecieved; ?>"placeholder="Fees Recieved">
+                                        <label>Fees Received</label>
+                                        <input  type="number" tabindex="9" name="feesreceived[]" id="feesreceived" class="form-control" value="<?php if(isset($feesreceived)) echo $feesreceived; ?>"placeholder="Fees Received">
                                        </div>
                                     </div>
 
@@ -275,7 +275,7 @@ if (sizeof($groupfeedetails)>0) {
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                         <label>Fees Received</label>
-                                        <input  type="number" tabindex="9" name="feesrecieved[]" id="feesrecieved" class="form-control" value="<?php if(isset($feesrecieved)) echo $feesrecieved; ?>"placeholder="Fees Recieved">
+                                        <input  type="number" tabindex="9" name="feesrecieved[]" id="feesrecieved" class="form-control" value="<?php if(isset($feesrecieved)) echo $feesrecieved; ?>"placeholder="Fees Received">
                                        </div>
                                     </div>
 
@@ -318,7 +318,7 @@ if (sizeof($groupfeedetails)>0) {
                                        <div class="col-md-4">
                                         <div class="form-group">
                                         <label>Fees Received</label>
-                                        <input  type="number" tabindex="15" name="otherfeesrecieved" id="otherfeesrecieved" class="form-control" value="<?php if(isset($otherfeesrecieved)) echo $otherfeesrecieved; ?>"placeholder="Enter the Fees Received">
+                                        <input  type="number" tabindex="15" name="otherfeesreceived" id="otherfeesreceived" class="form-control" value="<?php if(isset($otherfeesreceived)) echo $otherfeesreceived; ?>"placeholder="Enter the Fees Received">
                                        </div>
                                     </div>
                                      </div>
@@ -445,14 +445,14 @@ if (sizeof($payfeedetails)>0) {
 
                                   <div id="payamountfield"></div>
 
- <script>
+<!--  <script>
     function calculate(){
     var rupees=document.getElementById("payrupees").value;
     var numrps =document.getElementById("paynumberofrupees").value;
     var amount=parseInt(rupees)*parseInt(numrps);
     document.getElementById("payamount").value = amount;
 }
- </script>
+ </script> -->
 
                                               <div class="card-body row col-sm-4">
                                                  <div class="form-group">
