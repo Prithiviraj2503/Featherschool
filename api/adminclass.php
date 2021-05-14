@@ -2209,9 +2209,9 @@ public function addfeecollection($mysqli) {
 		{
 		$otherchanges = $_POST['otherchanges'];
 		}
-		if(isset($_POST['otherfeesrecieved']))		
+		if(isset($_POST['otherfeesreceived']))		
 		{
-		$otherfeesrecieved = $_POST['otherfeesrecieved'];
+		$otherfeesreceived = $_POST['otherfeesreceived'];
 		}
 		if(isset($_POST['totalfeecollected']))		
 		{	
@@ -2238,7 +2238,7 @@ public function addfeecollection($mysqli) {
 		$status    = 1;
 		}
 
-		$qry="INSERT INTO feescollection(receiptnumber, registernumber, studentid, receiptdate, academicyear, standard, otherchanges, otherfeesrecieved, totalfeecollected, finalfeecollected, feecollected, balancefeecollect, status) VALUES (
+		$qry="INSERT INTO feescollection(receiptnumber, registernumber, studentid, receiptdate, academicyear, standard, otherchanges, otherfeesreceived, totalfeecollected, finalfeecollected, feecollected, balancefeecollect, status) VALUES (
 		'".strip_tags($receiptnumber)."',
 		'".strip_tags($registernumber)."',
 		'".strip_tags($studentid)."',
@@ -2246,7 +2246,7 @@ public function addfeecollection($mysqli) {
 		'".strip_tags($academicyear)."',
 		'".strip_tags($standard)."',
 		'".strip_tags($otherchanges)."',
-		'".strip_tags($otherfeesrecieved)."',
+		'".strip_tags($otherfeesreceived)."',
 		'".strip_tags($totalfeecollected)."',
 		'".strip_tags($finalfeecollected)."',
 		'".strip_tags($feecollected)."',
@@ -2268,7 +2268,7 @@ public function addfeecollection($mysqli) {
 				
 		$i=0 ;
 		for( $i=0 ;$i<$groupfeeslength;$i++){
-		$qry1 = "INSERT INTO groupfees (groupfees, groupfeesamount, feesrecieved, scholarship, balance, feecollectid) 
+		$qry1 = "INSERT INTO groupfees (groupfees, groupfeesamount, feesreceived, scholarship, balance, feecollectid) 
 		VALUES (
 		'".strip_tags($groupfees[$i])."',
 		'".strip_tags($groupfeesamount[$i])."',
@@ -2335,9 +2335,9 @@ public function addfeecollection($mysqli) {
 		{
 		$otherchanges = $_POST['otherchanges'];
 		}
-		if(isset($_POST['otherfeesrecieved']))		
+		if(isset($_POST['otherfeesreceived']))		
 		{
-		$otherfeesrecieved = $_POST['otherfeesrecieved'];
+		$otherfeesreceived = $_POST['otherfeesreceived'];
 		}
 		if(isset($_POST['totalfeecollected']))		
 		{	
@@ -2372,7 +2372,7 @@ public function addfeecollection($mysqli) {
 		academicyear = "'.strip_tags($academicyear).'",
 		standard = "'.strip_tags($standard).'",
 		otherchanges = "'.strip_tags($otherchanges).'",
-		otherfeesrecieved = "'.strip_tags($otherfeesrecieved).'",
+		otherfeesreceived = "'.strip_tags($otherfeesreceived).'",
 		totalfeecollected =  "'.strip_tags($totalfeecollected).'",
 		finalfeecollected ="'.strip_tags($finalfeecollected).'",
 		feecollected = "'.strip_tags($feecollected).'",
@@ -2384,7 +2384,7 @@ public function addfeecollection($mysqli) {
 			
 	    $groupfees       = $_POST['groupfees'];
 		$groupfeesamount = $_POST['groupfeesamount'];
-		$feesrecieved    = $_POST['feesrecieved'];
+		$feesreceived    = $_POST['feesreceived'];
 		$scholarship     = $_POST['scholarship'];
 		$balance         = $_POST['balance'];
 		$groupfeeid      = $_POST['groupfeeid'];
@@ -2395,7 +2395,7 @@ public function addfeecollection($mysqli) {
 		for( $i=0 ;$i<$groupfeeslength;$i++){
 	$updateQrygf = 'UPDATE  groupfees  SET groupfees="'.strip_tags($groupfees[$i]).'" ,
 groupfeesamount="'.strip_tags($groupfeesamount[$i]).'" ,		 
-feesrecieved="'.strip_tags($feesrecieved[$i]).'",
+feesreceived="'.strip_tags($feesreceived[$i]).'",
 scholarship="'.strip_tags($scholarship[$i]).'",
 balance="'.strip_tags($balance[$i]).'"		
 WHERE groupfeeid="'.mysqli_real_escape_string($mysqli,$groupfeeid[$i]).'" ';  		
@@ -2435,7 +2435,7 @@ public function getfeecollectiondetails($mysqli,$idupd)
 				$detailrecords['academicyear']       = strip_tags($row->academicyear);
 				$detailrecords['standard']           = strip_tags($row->standard);
 				$detailrecords['otherchanges']       = strip_tags($row->otherchanges);
-				$detailrecords['otherfeesrecieved']  = strip_tags($row->otherfeesrecieved);	
+				$detailrecords['otherfeesreceived']  = strip_tags($row->otherfeesreceived);	
 				$detailrecords['totalfeecollected']  = strip_tags($row->totalfeecollected);
 				$detailrecords['finalfeecollected']  = strip_tags($row->finalfeecollected);
 				$detailrecords['feecollected']       = strip_tags($row->feecollected);
@@ -2458,7 +2458,7 @@ public function getfeecollectiondetails($mysqli,$idupd)
 			    $detailrecords[$i]['groupfeeid']           = $row->groupfeeid; 
 				$detailrecords[$i]['groupfees']       	   = strip_tags($row->groupfees);
 				$detailrecords[$i]['groupfeesamount']      = strip_tags($row->groupfeesamount);
-				$detailrecords[$i]['feesrecieved']         = strip_tags($row->feesrecieved);
+				$detailrecords[$i]['feesreceived']         = strip_tags($row->feesreceived);
 				$detailrecords[$i]['scholarship']          = strip_tags($row->scholarship);
 				$detailrecords[$i]['balance']              = strip_tags($row->balance);					
 				$i++;
