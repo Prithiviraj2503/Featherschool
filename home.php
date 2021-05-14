@@ -375,7 +375,7 @@
                      <li class="nav-item"><a class="nav-link <?php if($msc=1){ echo "active"; } if($msc=2  ){ echo "active"; } if($msc=3 ){ echo "active"; }?>" <a  href="#feehistory" target="_self" >View Fee History</a></li>
                         <?php  } ?>
                         <?php if($current_page == 'studentrollback') { ?>
-                     <li class="nav-item"><a class="nav-link <?php if($msc!=1){ echo "active"; } if($msc!=2  ){ echo "active"; } if($msc!=3 ){ echo "active"; }?>" <a href=<?php echo $URLPATH."studentrollback";?>  target="_self" >View Student RollBack</a></li>
+                     <li class="nav-item"><a class="nav-link <?php if($msc!=1){ echo "active"; } if($msc!=2  ){ echo "active"; } if($msc!=3 ){ echo "active"; }?>" <a href=<?php echo $URLPATH."studentrollback";?>  target="_self" >Add Student RollBack</a></li>
                         <li class="nav-item"><a class="nav-link <?php if($msc==1){ echo "active"; }if($msc==2){ echo "active"; }if($msc==3){ echo "active"; }?> " data-toggle="tab" href="#studentrollback-all">Edit Student RollBack</a></li>             
                         <?php  } ?>
                         
