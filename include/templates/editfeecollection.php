@@ -37,7 +37,7 @@ if($mscid==3)
                           <th>Academic Year</th> 
                            <th>Standard</th>    
                             <th>Other Changes</th>   
-                             <th>Other Fees Recieved</th>  
+                             <th>Other Fees Received</th>  
                               <th>Total Fee Collected</th> 
                                <th>Final Fee Collected</th>    
                                 <th>Fee Collected</th>   
