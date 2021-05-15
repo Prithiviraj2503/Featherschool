@@ -1,5 +1,4 @@
 <div class="ml-4 mt-4">
-
     <div class="row clearfix">
                             <div class="col-sm-4">
                                     <div class="card-header">
@@ -41,5 +40,63 @@
 
 <div id="feecollectioncontent">
 </div>
-   
+</div>
+</div>
+</div>
+
+<?php 
+
+$qry="SELECT (SELECT COUNT(feecollectid) FROM feescollection WHERE balancefeecollect=0) AS fullpaidval,
+(             SELECT COUNT(feecollectid) FROM feescollection WHERE feecollected=0) AS notpaidval,
+(SELECT COUNT(feecollectid) FROM feescollection WHERE (feecollected/finalfeecollected)*100>0  AND (feecollected/finalfeecollected)*100<=30) AS onepaidval,
+(SELECT COUNT(feecollectid) FROM feescollection WHERE (feecollected/finalfeecollected)*100>30 AND (feecollected/finalfeecollected)*100<=60) AS twopaidval,
+(SELECT COUNT(feecollectid) FROM feescollection WHERE (feecollected/finalfeecollected)*100>60 AND (feecollected/finalfeecollected)*100<=80) AS threepaidval,
+(SELECT COUNT(feecollectid) FROM feescollection WHERE (feecollected/finalfeecollected)*100>80 AND (feecollected/finalfeecollected)*100<=95) AS fourpaidval
+FROM feescollection WHERE 1";
+
+$res =$mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
+
+if($mysqli->affected_rows>0)
+{
+$row = $res->fetch_assoc();
+$fullpaid=$row["fullpaidval"];
+$notpaid =$row["notpaidval"];
+$onepaid=$row["onepaidval"];
+$twopaid=$row["twopaidval"];
+$threepaid=$row["threepaidval"];
+$fourpaid=$row["fourpaidval"];
+}
+?>
+
+<div class="container">
+<script src="chartjs.js"></script>
+<canvas id="bar-chart" width="200" height="100"></canvas>
+<script>
+  var notpaid   = <?php echo $notpaid; ?>;
+  var fullpaid  = <?php echo $fullpaid;?>;
+  var onepaid   = <?php echo $onepaid; ?>;
+  var twopaid   = <?php echo $twopaid; ?>;
+  var threepaid = <?php echo $threepaid;?>;
+  var fourpaid = <?php echo $fourpaid; ?>;
+new Chart(document.getElementById("bar-chart"), {
+    type: 'bar',
+    data: {
+      labels: ["Not Paid", "30% Paid", "60% Paid", "80% Paid","95% Paid","Paid Full Amount"],
+      datasets: [
+        {
+          label: "",
+          backgroundColor: ["#FF0000","#8e5ea2","#00FFFF","#ff0066","#00ff00","#008000"],
+          data: [notpaid, onepaid, twopaid, threepaid, fourpaid,fullpaid]
+        }
+      ]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Number Of Students'
+      }
+    }
+});
+</script>
 </div>
