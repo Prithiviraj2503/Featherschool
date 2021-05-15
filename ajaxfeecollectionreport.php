@@ -185,6 +185,43 @@ $totalstudentstopay=  $lkgtotaltopay + $ukgtotaltopay  + $Itotaltopay  + $IItota
                       $VIItotaltopay + $VIIItotaltopay + $IXtotaltopay + $Xtotaltopay  +
                       $XItotaltopay  + $XIItotaltopay;
 }
+
+//chart
+
+$chartqry="SELECT (SELECT COUNT(feecollectid) FROM feescollection WHERE  academicyear='".$academicyear."' AND balancefeecollect=0) AS fullpaidval,
+(SELECT COUNT(feecollectid) FROM feescollection WHERE academicyear='".$academicyear."' AND feecollected=0) AS notpaidval,
+(SELECT COUNT(feecollectid) FROM feescollection WHERE academicyear='".$academicyear."' AND (feecollected/finalfeecollected)*100>0  AND (feecollected/finalfeecollected)*100<=30) AS onepaidval,
+(SELECT COUNT(feecollectid) FROM feescollection WHERE academicyear='".$academicyear."' AND (feecollected/finalfeecollected)*100>30 AND (feecollected/finalfeecollected)*100<=60) AS twopaidval,
+(SELECT COUNT(feecollectid) FROM feescollection WHERE academicyear='".$academicyear."' AND (feecollected/finalfeecollected)*100>60 AND (feecollected/finalfeecollected)*100<=80) AS threepaidval,
+(SELECT COUNT(feecollectid) FROM feescollection WHERE academicyear='".$academicyear."' AND (feecollected/finalfeecollected)*100>80 AND (feecollected/finalfeecollected)*100<=95) AS fourpaidval
+FROM feescollection WHERE 1";
+
+$chartres =$connect->query($chartqry)or die("Error in Get All Records".$connect->error);
+
+if (isset($_POST['order'])) {
+    $chartqry .= 'ORDER BY ' . $column[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'] . ' ';
+} else {
+    $chartqry .= ' ';
+}
+$chartqry1 = '';
+
+
+$statementch = $connect->prepare($chartqry);
+$statementch->execute();
+$number_filter_row = $statementch->rowCount();
+$statementch = $connect->prepare($chartqry . $chartqry1);
+$statementch->execute();
+$chartresult = $statementch->fetchAll();
+$row = array();
+
+foreach ($chartresult as $chartrow) { 
+$fullpaid=$chartrow["fullpaidval"];
+$notpaid =$chartrow["notpaidval"];
+$onepaid=$chartrow["onepaidval"];
+$twopaid=$chartrow["twopaidval"];
+$threepaid=$chartrow["threepaidval"];
+$fourpaid=$chartrow["fourpaidval"];
+}
 ?>                   
 
 <div class="ml-4 mt-4">
@@ -342,19 +379,36 @@ $totalstudentstopay=  $lkgtotaltopay + $ukgtotaltopay  + $Itotaltopay  + $IItota
                                                   </tbody>
                                                 </table>
 
+<input type="hidden" value="<?php if (isset($fullpaid))  {echo $fullpaid;}?>"  id="fullpaid">
+<input type="hidden" value="<?php if (isset($notpaid))   {echo $notpaid;}?>"   id="notpaid">
+<input type="hidden" value="<?php if (isset($onepaid))   {echo $onepaid;}?>"   id="onepaid">
+<input type="hidden" value="<?php if (isset($twopaid))   {echo $twopaid;}?>"   id="twopaid">
+<input type="hidden" value="<?php if (isset($threepaid)) {echo $threepaid;}?>" id="threepaid">
+<input type="hidden" value="<?php if (isset($fourpaid))  {echo $fourpaid;}?>"  id="fourpaid">
+
+
 <script>
 $(document).ready(function() {
+    var fullpaid  = document.getElementById('fullpaid').value;
+    var notpaid   = document.getElementById('notpaid').value;
+    var onepaid   = document.getElementById('onepaid').value;
+    var twopaid   = document.getElementById('twopaid').value;
+    var threepaid = document.getElementById('threepaid').value;
+    var fourpaid  = document.getElementById('fourpaid').value;
+    alert(fourpaid);
+    
+
     $('#feecollectionreport_info').DataTable( {
         dom: 'Bfrtip',
         buttons: [
-		'excel', 'csv', {
+    'excel', 'csv', {
                           extend: 'pdf',
                           
-						},'copy', 'print', 
-	],"lengthMenu": [
-		[10, 25, 50, -1],
-		[10, 25, 50, "All"]
-	]
-    } );
-} );
+            },'copy', 'print', 
+  ],"lengthMenu": [
+    [10, 25, 50, -1],
+    [10, 25, 50, "All"]
+  ]
+    });
+    });
 </script>
