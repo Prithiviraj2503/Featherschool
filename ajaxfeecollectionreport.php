@@ -224,6 +224,7 @@ $fourpaid=$chartrow["fourpaidval"];
 }
 ?>                   
 
+<div>
 <div class="ml-4 mt-4">
 <br>
 <table class="table table-bordered"  id="feecollectionreport_info" >
@@ -378,6 +379,38 @@ $fourpaid=$chartrow["fourpaidval"];
 
                                                   </tbody>
                                                 </table>
+<script src="chartjs.js"></script>
+<canvas id="bar-chart" width="200" height="100"></canvas>
+<script>
+  var notpaid   = <?php echo $notpaid; ?>;
+  var fullpaid  = <?php echo $fullpaid;?>;
+  var onepaid   = <?php echo $onepaid; ?>;
+  var twopaid   = <?php echo $twopaid; ?>;
+  var threepaid = <?php echo $threepaid;?>;
+  var fourpaid =  <?php echo $fourpaid; ?>;
+new Chart(document.getElementById("bar-chart"), {
+    type: 'bar',
+    data: {
+      labels: ["Not Paid", "30% Paid", "60% Paid", "80% Paid","95% Paid","Paid Full Amount"],
+      datasets: [
+        {
+          label: "",
+          backgroundColor: ["#FF0000","#8e5ea2","#00FFFF","#ff0066","#00ff00","#008000"],
+          data: [notpaid, onepaid, twopaid, threepaid, fourpaid,fullpaid]
+        }
+      ]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Number Of Students'
+      }
+    }
+});
+</script>
+</div>
+</div>
 
 <input type="hidden" value="<?php if (isset($fullpaid))  {echo $fullpaid;}?>"  id="fullpaid">
 <input type="hidden" value="<?php if (isset($notpaid))   {echo $notpaid;}?>"   id="notpaid">
